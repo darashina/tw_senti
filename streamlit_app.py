@@ -79,6 +79,22 @@ input_data = st.text_input("検索語句を入力してください")
 
 if st.button("検索実行"):
     if len(input_data) > 0:
-        "実行しました。"
+        ### クエリ パラメータの設定
+        query_params = {
+            "query": input_data + " -is:retweet",
+            "max_results": 20
+            "tweet.fields": "author_id"
+        }
+        
+        ### ツイート取得
+        json_response = connect_to_endpoint(search_url, query_params)
+        
+        ### 感情分析用変数の設定
+        senti_res = []
+        accses_token = get_cotoha_acces_token()
+        
+        ### 感情分析データ取得
+        for i in json_response["data"]:
+            i["text"]
     else:
         st.error("検索語句がありません")
