@@ -95,6 +95,8 @@ if st.button("検索実行"):
         posi_nega = [0, 0, 0]
         score_total = 0.0
         emo_phrase = []
+        err_flg = False
+        err_msg = ""
         
         ### 感情分析データ取得
         for i in json_response["data"]:
@@ -109,13 +111,21 @@ if st.button("検索実行"):
                     posi_nega[2] += 1
                 else:
                     posi_nega[1] += 1
-            score_total += j["result"]["score"]
-            if len(j["result"]["emotional_phrase"]) > 0:
-                for k in j["result"]["emotional_phrase"]:
-                    emo_phrase.append(k["form"])
+                score_total += j["result"]["score"]
+                if len(j["result"]["emotional_phrase"]) > 0:
+                    for k in j["result"]["emotional_phrase"]:
+                        emo_phrase.append(k["form"])
+            else:
+                err_flg = True
+                err_msg = j["message"]
         
+        max_cnt = posi_nega[0] + posi_nega[1] + posi_nega[2]
         posi_nega
-        score_total / len(senti_res)
+        max_cnt
+        score_total / max_cnt
         emo_phrase
+        
+        if err_flg:
+            st.error(err_msg)
     else:
         st.error("検索語句がありません")
