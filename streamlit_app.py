@@ -74,12 +74,11 @@ def cotoha_sentiment_analyze(access_token, sentence):
 st.title("検索語句を含むツイートの感情分析")
 
 ### 検索語句の取得
-input_data = None
 input_data = st.text_input("検索語句を入力してください")
 "検索語句：", input_data
 
 if st.button("検索実行"):
-    if input_data is not None:
+    if len(input_data) > 0:
         "実行しました。"
     else:
         st.error("検索語句がありません")
