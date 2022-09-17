@@ -92,9 +92,30 @@ if st.button("検索実行"):
         ### 感情分析用変数の設定
         senti_res = []
         accses_token = get_cotoha_acces_token()
+        posi_nega = [0, 0, 0]
+        score_total = 0.0
+        emo_phrase = []
         
         ### 感情分析データ取得
         for i in json_response["data"]:
-            i["text"]
+            senti_res.append(cotoha_sentiment_analyze(accses_token, i["text"]))
+        
+        ### データの整形
+        for j in senti_res:
+            if j["status"] == 0:
+                if j["result"]["sentiment"] == "Positive":
+                    posi_nega[0] += 1
+                elif j["result"]["sentiment"] == "Negative":
+                    posi_nega[2] += 1
+                else:
+                    posi_nega[1] += 1
+            score_total += j["result"]["score"]
+            if len(j["result"]["emotional_phrase"]) > 0:
+                for k in j["result"]["emotional_phrase"]:
+                    emo_phrase.append(k["form"])
+        
+        posi_nega
+        score_total / len(senti_res)
+        emo_phrase
     else:
         st.error("検索語句がありません")
