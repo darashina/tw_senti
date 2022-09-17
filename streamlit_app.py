@@ -82,8 +82,8 @@ if st.button("検索実行"):
         ### クエリ パラメータの設定
         query_params = {
             "query": input_data + " -is:retweet",
-            "max_results": 20
-            "tweet.fields": "author_id"
+            "max_results": 20,
+            "tweet.fields": "author_id",
         }
         
         ### ツイート取得
