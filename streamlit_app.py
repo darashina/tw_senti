@@ -3,6 +3,7 @@
 import streamlit as st
 import requests
 import json
+import numpy as np
 
 ### ユーザー情報ファイルの取得
 with open("secret.json") as f:
@@ -92,7 +93,7 @@ if st.button("検索実行"):
         ### 感情分析用変数の設定
         senti_res = []
         accses_token = get_cotoha_acces_token()
-        posi_nega = [0, 0, 0]
+        posi_nega = np.zeros(3)
         score_total = 0.0
         emo_phrase = []
         err_flg = False
@@ -119,11 +120,13 @@ if st.button("検索実行"):
                 err_flg = True
                 err_msg = j["message"]
         
-        max_cnt = posi_nega[0] + posi_nega[1] + posi_nega[2]
-        posi_nega
-        max_cnt
-        score_total / max_cnt
-        emo_phrase
+        max_cnt = posi_nega.sum()
+        rate = posi_nega / posi_nega.sum(keepdims=True)
+        st.write("ポジティブ：", posi_nega[0], "(", rate[0], "%) 普通：", posi_nega[1], "(", rate[1], "%)　ネガティブ：",  posi_nega[2], "(", rate[2], "%)")
+        st.write("データ件数：", max_cnt)
+        st.write("評価スコア：", score_total / max_cnt)
+        st.write("感情ワード")
+        st.write(" ".join(emo_phrase))
         
         if err_flg:
             st.error(err_msg)
