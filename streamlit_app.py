@@ -121,7 +121,7 @@ if st.button("検索実行"):
                 err_msg = j["message"]
         
         max_cnt = posi_nega.sum()
-        rate = posi_nega / posi_nega.sum(keepdims=True)
+        rate = posi_nega / posi_nega.sum(keepdims=True) * 100
         st.write("ポジティブ：", posi_nega[0], "(", rate[0], "%) 普通：", posi_nega[1], "(", rate[1], "%)　ネガティブ：",  posi_nega[2], "(", rate[2], "%)")
         st.write("データ件数：", max_cnt)
         st.write("評価スコア：", score_total / max_cnt)
